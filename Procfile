@@ -1,1 +1,1 @@
-web: sh build/install/deploy/bin/deploy
+web: sh build/install/app/bin/app
