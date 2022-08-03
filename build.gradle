@@ -23,5 +23,11 @@ repositories {
   mavenCentral()
 }
 
+dependencies {
+  implementation 'io.javalin:javalin:4.6.4'
+  implementation 'org.slf4j:slf4j-simple:1.7.36'
+
+}
+
 group = 'hexlet.code'
 version = '1.0-SNAPSHOT'
