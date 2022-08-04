@@ -6,35 +6,56 @@
  */
 
 plugins {
-  id 'com.github.ben-manes.versions' version '0.39.0'
-  id 'application'
-  id 'checkstyle'
+    id 'com.github.ben-manes.versions' version '0.42.0'
+    id 'application'
+    id 'checkstyle'
+    id('io.ebean') version '13.6.6'
 }
 
 application {
-  mainClass = 'hexlet.code.App'
+    mainClass = 'hexlet.code.App'
 }
 
 compileJava {
-  options.release = 17
+    options.release = 17
 }
 
 repositories {
-  mavenCentral()
+    mavenCentral()
 }
 
 dependencies {
-  implementation 'io.javalin:javalin:4.6.4'
-  implementation 'org.slf4j:slf4j-simple:1.7.36'
+    implementation 'io.javalin:javalin:4.6.4'
+    implementation 'org.slf4j:slf4j-simple:1.7.36'
 
+    implementation 'io.ebean:ebean:13.6.6'
+    implementation 'io.ebean:ebean-ddl-generator:13.6.6'
+    implementation 'io.ebean:ebean-querybean:13.6.6'
+    implementation 'io.ebean:ebean-migration:13.6.0'
+    implementation 'io.ebean:ebean-annotation:8.2'
+    annotationProcessor 'io.ebean:querybean-generator:13.6.6'
+
+    // NOTE: ebean-ddl-generator требует старые зависимости, которых нет в java 9 и выше
+    implementation 'org.glassfish.jaxb:jaxb-runtime:2.3.5'
+    implementation 'javax.activation:activation:1.1.1'
+
+
+
+    implementation 'com.h2database:h2:2.1.214'
 }
 
 tasks.withType(JavaCompile) {
-  options.encoding = "UTF-8"
+    options.encoding = "UTF-8"
 }
 
 task stage(dependsOn: ['clean', 'installDist'])
 installDist.mustRunAfter clean
+
+task generateMigrations(type: JavaExec) {
+    classpath = sourceSets.main.runtimeClasspath
+    mainClass = 'hexlet.code.MigrationGenerator'
+}
+
 
 group = 'hexlet.code'
 version = '1.0-SNAPSHOT'
