@@ -1,4 +1,4 @@
-package hexlet.code.model;
+package hexlet.code.models;
 
 import javax.persistence.Entity;
 import javax.persistence.Id;

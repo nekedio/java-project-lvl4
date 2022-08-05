@@ -1,6 +1,8 @@
 package hexlet.code;
 
+import hexlet.code.controllers.RootController;
 import io.javalin.Javalin;
+import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -10,7 +12,11 @@ import java.nio.file.Paths;
 //import java.sql.PreparedStatement;
 //import java.sql.ResultSet;
 import java.sql.SQLException;
+import org.thymeleaf.TemplateEngine;
+import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
 //import java.sql.Statement;
+import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
+import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
 class App {
 
@@ -25,9 +31,23 @@ class App {
 
     }
 
+    private static TemplateEngine getTemplateEngine() {
+        TemplateEngine templateEngine = new TemplateEngine();
+
+        ClassLoaderTemplateResolver templateResolver = new ClassLoaderTemplateResolver();
+        templateResolver.setPrefix("/templates/");
+
+        templateEngine.addTemplateResolver(templateResolver);
+        templateEngine.addDialect(new LayoutDialect());
+        templateEngine.addDialect(new Java8TimeDialect());
+
+        return templateEngine;
+    }
+
     public static Javalin getApp() {
         Javalin app = Javalin.create(config -> {
             config.enableDevLogging();
+            JavalinThymeleaf.configure(getTemplateEngine());
         });
 
         addRoutes(app);
@@ -40,7 +60,8 @@ class App {
     }
 
     private static void addRoutes(Javalin app) {
-        app.get("/", ctx -> ctx.result("Hello World"));
+//        app.get("/", ctx -> ctx.result("Hello World"));
+        app.get("/", RootController.welcome);
     }
 
     private static String getFileContent(String fileName) throws IOException {
@@ -55,8 +76,6 @@ class App {
 //        Statement statement = connection.createStatement();
 //        String initSql = getFileContent("init.sql");
 //        statement.execute(initSql);
-
-
         // Принт таблицы
 //        String query = "SELECT * FROM url";
 //        PreparedStatement st = connection.prepareStatement(query);
@@ -68,7 +87,6 @@ class App {
 //                    + rs.getString("createdAt")
 //            );
 //        }
-
         // Старт сервера
         Javalin app = getApp();
         app.start(getPort());
