@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/application.html}">
+
+
+    <section layout:fragment="content">
+
+        <div class="p-5">
+            <table class="table table-bordered table-light border rounded">
+                <thead>
+                    <tr>
+                        <th scope="col">ID</th>
+                        <th scope="col">Имя</th>
+                        <th scope="col">Последняя проверка</th>
+                        <th scope="col">Код ответа</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="url : ${urls}" th:object="${url}">
+                        <th th:text="*{id}"></th>
+                        <td>
+                            <a th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
+                        </td>
+                        <td></td>
+                        <td></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="p-3">
+            <nav aria-label="Пример навигации по страницам">
+                <ul class="pagination justify-content-center">
+                    <li class="page-item disabled">
+                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Предыдущая</a>
+                    </li>
+                    <li class="page-item"><a class="page-link" href="#">1</a></li>
+                    <li class="page-item"><a class="page-link" href="#">2</a></li>
+                    <li class="page-item"><a class="page-link" href="#">3</a></li>
+                    <li class="page-item">
+                        <a class="page-link" href="#">Следующая</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+    </section>
+
+
+</html>

@@ -1,20 +1,13 @@
 package hexlet.code;
 
-import hexlet.code.controllers.RootController;
+import hexlet.code.controllers.HomeController;
+import hexlet.code.controllers.UrlController;
 import io.javalin.Javalin;
 import io.javalin.plugin.rendering.template.JavalinThymeleaf;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-//import java.sql.Connection;
-//import java.sql.DriverManager;
-//import java.sql.PreparedStatement;
-//import java.sql.ResultSet;
 import java.sql.SQLException;
 import org.thymeleaf.TemplateEngine;
 import org.thymeleaf.templateresolver.ClassLoaderTemplateResolver;
-//import java.sql.Statement;
 import nz.net.ultraq.thymeleaf.layoutdialect.LayoutDialect;
 import org.thymeleaf.extras.java8time.dialect.Java8TimeDialect;
 
@@ -47,6 +40,7 @@ class App {
     public static Javalin getApp() {
         Javalin app = Javalin.create(config -> {
             config.enableDevLogging();
+            config.enableWebjars();
             JavalinThymeleaf.configure(getTemplateEngine());
         });
 
@@ -60,34 +54,12 @@ class App {
     }
 
     private static void addRoutes(Javalin app) {
-//        app.get("/", ctx -> ctx.result("Hello World"));
-        app.get("/", RootController.welcome);
-    }
-
-    private static String getFileContent(String fileName) throws IOException {
-        Path pathToSolution = Paths.get(fileName).toAbsolutePath();
-        return Files.readString(pathToSolution).trim();
+        app.get("/", HomeController.welcome);
+        app.post("/", UrlController.createUrl);
+        app.get("/urls", UrlController.list);
     }
 
     public static void main(String[] args) throws SQLException, IOException {
-
-        // Соединение с базой и миграции
-//        Connection connection = DriverManager.getConnection("jdbc:h2:./page_analyzer");
-//        Statement statement = connection.createStatement();
-//        String initSql = getFileContent("init.sql");
-//        statement.execute(initSql);
-        // Принт таблицы
-//        String query = "SELECT * FROM url";
-//        PreparedStatement st = connection.prepareStatement(query);
-//        ResultSet rs = st.executeQuery();
-//        while (rs.next()) {
-//            System.out.println(
-//                    rs.getString("id") + "  "
-//                    + rs.getString("name") + "  "
-//                    + rs.getString("createdAt")
-//            );
-//        }
-        // Старт сервера
         Javalin app = getApp();
         app.start(getPort());
     }

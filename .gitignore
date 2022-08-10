@@ -7,3 +7,4 @@ build
 # netbeans
 nohup.out
 
+*.db
