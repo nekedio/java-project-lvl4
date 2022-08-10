@@ -31,7 +31,6 @@ public final class UrlController {
         Url url = new Url(line);
         url.save();
         ctx.sessionAttribute("flash", "Пользователь успешно создан!");
-        List<Url> urls = new QUrl().findList();
         ctx.redirect("/urls");
     };
 
