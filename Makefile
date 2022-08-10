@@ -12,6 +12,3 @@ migrate:
 
 clean:
 	./gradlew clean
-
-start-dist:
-	APP_ENV=production ./build/install/app/bin/app
