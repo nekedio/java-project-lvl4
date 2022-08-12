@@ -2,7 +2,9 @@ package hexlet.code.models;
 
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
+import java.text.SimpleDateFormat;
 import java.time.Instant;
+import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 
@@ -26,10 +28,19 @@ public final class Url extends Model {
     }
 
     public long getId() {
-        return this.id;
+        return id;
     }
 
     public String getName() {
-        return this.name;
+        return name;
+    }
+
+    public String createdAtToFormat() {
+
+        Date date = Date.from(createdAt);
+        SimpleDateFormat formatter = new SimpleDateFormat("dd-MM-yyyy HH:mm");
+        String formattedDate = formatter.format(date);
+
+        return formattedDate;
     }
 }

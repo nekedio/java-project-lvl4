@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      layout:decorate="~{layouts/application.html}">
+
+
+    <section layout:fragment="content">
+
+
+        <div class="p-5">
+            <h3 class="text-center" th:text="'Сайт: ' + *{url.getName}"></h3>
+
+            <div class="p-2">
+                <table class="table table-bordered table-light border rounded">
+                    <tbody>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <td th:text="*{url.getId()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Имя</th>
+                            <td th:text="*{url.getName()}"></td>
+                        </tr>
+                        <tr>
+                            <th scope="col">Дата создания</th>
+                            <td th:text="*{url.createdAtToFormat()}"></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+            <div class="p-2">
+                <h3>Проверки:</h3>
+
+                <div>
+                    <form action="#" method="POST">
+                        <button type="submit" class="btn btn-primary">Запустить анализ!</button>
+                    </form>
+                </div>
+
+            </div>
+
+            <div class="p-2">
+                <table class="table table-bordered table-light border rounded">
+                    <thead>
+                        <tr>
+                            <th scope="col">ID</th>
+                            <th scope="col">Код ответа</th>
+                            <th scope="col">title</th>
+                            <th scope="col">h1</th>
+                            <th scope="col">description</th>
+                            <th scope="col">Дата проверки</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+<!--                        <tr th:each="url : ${urls}" th:object="${url}">
+                            <th th:text="*{id}"></th>
+                            <td>
+                                <a th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
+                            </td>
+                            <td></td>
+                            <td></td>
+                        </tr>-->
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+    </section>
+
+
+</html>

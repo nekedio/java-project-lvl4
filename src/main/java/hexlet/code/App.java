@@ -1,5 +1,6 @@
 package hexlet.code;
 
+import hexlet.code.controllers.CheckController;
 import hexlet.code.controllers.HomeController;
 import hexlet.code.controllers.UrlController;
 import io.javalin.Javalin;
@@ -57,6 +58,7 @@ class App {
         app.get("/", HomeController.welcome);
         app.post("/", UrlController.createUrl);
         app.get("/urls", UrlController.list);
+        app.get("/urls/{id}", CheckController.show);
     }
 
     public static void main(String[] args) throws SQLException, IOException {
