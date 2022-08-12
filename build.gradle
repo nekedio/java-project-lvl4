@@ -10,6 +10,8 @@ plugins {
     id 'application'
     id 'checkstyle'
     id('io.ebean') version '13.6.6'
+    id 'com.adarshr.test-logger' version '3.2.0'
+    id 'jacoco'
 }
 
 application {
@@ -18,6 +20,7 @@ application {
 
 compileJava {
     options.release = 17
+    options.compilerArgs += ["-Aproject=${project.group}/${project.name}"]
 }
 
 repositories {
@@ -25,6 +28,7 @@ repositories {
 }
 
 dependencies {
+
 
     implementation 'io.javalin:javalin:4.6.4'
     implementation 'org.slf4j:slf4j-simple:1.7.36'
@@ -47,6 +51,25 @@ dependencies {
 
     implementation 'com.h2database:h2:2.1.214'
     implementation 'org.postgresql:postgresql:42.3.3'
+
+    //testImplementation(
+    //        'org.assertj:assertj-core:3.23.1',
+    //        'org.junit.jupiter:junit-jupiter:5.8.2',
+    //)
+    testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.2'
+    testImplementation 'org.junit.jupiter:junit-jupiter-params:5.8.2'
+    testCompileOnly 'junit:junit:4.13.2'
+    testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+    testImplementation 'org.assertj:assertj-core:3.22.0'
+    testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    testImplementation 'com.konghq:unirest-java:3.13.6'
+    testImplementation 'io.ebean:ebean-test:12.11.5'
+
+    //testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
+    //testImplementation 'org.assertj:assertj-core:3.22.0'
+    //testCompileOnly 'junit:junit:4.13.2'
+    //testRuntimeOnly 'org.junit.vintage:junit-vintage-engine'
+
 }
 
 tasks.withType(JavaCompile) {
@@ -61,6 +84,34 @@ task generateMigrations(type: JavaExec) {
     mainClass = 'hexlet.code.MigrationGenerator'
 }
 
+
+jacocoTestReport {
+    dependsOn test
+}
+
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory = layout.buildDirectory.dir('customJacocoReportDir')
+}
+
+
+jacocoTestReport {
+    reports {
+        xml.required = true
+        csv.required = false
+        html.outputLocation = layout.buildDirectory.dir('jacocoHtml')
+    }
+}
+
+
+test {
+    useJUnitPlatform()
+    finalizedBy jacocoTestReport
+}
+
+testlogger {
+    showStandardStreams true
+}
 
 group = 'hexlet.code'
 version = '1.0-SNAPSHOT'
