@@ -3,6 +3,7 @@ package hexlet.code.controllers;
 import hexlet.code.models.Url;
 import hexlet.code.models.query.QUrl;
 import hexlet.code.services.UrlService;
+import io.ebean.PagedList;
 import io.javalin.core.validation.JavalinValidation;
 import io.javalin.core.validation.ValidationError;
 import io.javalin.core.validation.Validator;
@@ -56,8 +57,26 @@ public final class UrlController {
     };
 
     public static Handler list = ctx -> {
-        List<Url> urls = new QUrl().findList();
+        int page = ctx.queryParamAsClass("page", Integer.class).getOrDefault(1);
+        int rowsPerPage = 5;
+        int offset = (page - 1) * rowsPerPage;
+
+        if (page < 1) {
+            ctx.status(404);
+            ctx.render("404.html");
+            return;
+        }
+
+        PagedList<Url> pagedUrls = new QUrl()
+                .setFirstRow(offset)
+                .setMaxRows(rowsPerPage)
+                .orderBy().id.desc()
+                .findPagedList();
+
+        List<Url> urls = pagedUrls.getList();
+
         ctx.attribute("urls", urls);
+        ctx.attribute("page", page);
         ctx.render("index.html");
     };
 

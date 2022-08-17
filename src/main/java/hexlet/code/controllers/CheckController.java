@@ -7,8 +7,16 @@ import io.javalin.http.Handler;
 public class CheckController {
 
     public static Handler show = ctx -> {
-        int id = ctx.pathParamAsClass("id", Integer.class).getOrDefault(null);
+        long id = ctx.pathParamAsClass("id", Long.class).getOrDefault(null);
+
         Url url = new QUrl().id.eq(id).findOne();
+
+        if (url == null) {
+            ctx.status(404);
+            ctx.render("404.html");
+            return;
+        }
+
         ctx.attribute("url", url);
         ctx.render("show.html");
     };

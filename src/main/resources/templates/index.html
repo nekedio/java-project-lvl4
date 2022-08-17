@@ -33,15 +33,17 @@
         <div class="p-3">
             <nav aria-label="Пример навигации по страницам">
                 <ul class="pagination justify-content-center">
-                    <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">Предыдущая</a>
+                    <li th:if="${page > 1}" class="page-item">
+                        <a class="page-link"  th:href="@{/urls?page={page}(page=*{page - 1})}"  >Предыдущая</a>
                     </li>
-                    <li class="page-item"><a class="page-link" href="#">1</a></li>
-                    <li class="page-item"><a class="page-link" href="#">2</a></li>
-                    <li class="page-item"><a class="page-link" href="#">3</a></li>
                     <li class="page-item">
-                        <a class="page-link" href="#">Следующая</a>
+                        <u class="text-primary">
+                            <a class="page-link" th:href="@{/urls?page={page}(page=*{page})}" th:text="*{page}"></a>
+                        </u>
                     </li>
+                    <li class="page-item"><a class="page-link" th:href="@{/urls?page={page}(page=*{page + 1})}" th:text="*{page + 1}"></a></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}" th:text="*{page + 2}"></a></li>
+                    <li class="page-item"><a class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}">Следующая</a></li>
                 </ul>
             </nav>
         </div>
