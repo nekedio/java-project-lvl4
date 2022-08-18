@@ -5,8 +5,10 @@ import io.ebean.annotation.WhenCreated;
 import java.text.SimpleDateFormat;
 import java.time.Instant;
 import java.util.Date;
+import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 
 @Entity
 public final class Url extends Model {
@@ -34,6 +36,9 @@ public final class Url extends Model {
     public String getName() {
         return name;
     }
+
+    @OneToMany
+    private List<UrlCheck> urlChecks;
 
     public String createdAtToFormat() {
 

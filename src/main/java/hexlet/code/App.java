@@ -59,6 +59,7 @@ class App {
         app.post("/", UrlController.createUrl);
         app.get("/urls", UrlController.list);
         app.get("/urls/{id}", CheckController.show);
+        app.post("/urls/{id}/checks", CheckController.createCheck);
     }
 
     public static void main(String[] args) throws SQLException, IOException {

@@ -35,7 +35,7 @@
                 <h3>Проверки:</h3>
 
                 <div>
-                    <form action="#" method="POST">
+                    <form th:action="*{url.getId() + '/checks'}" method="POST">
                         <button type="submit" class="btn btn-primary">Запустить анализ!</button>
                     </form>
                 </div>
@@ -55,14 +55,14 @@
                         </tr>
                     </thead>
                     <tbody>
-<!--                        <tr th:each="url : ${urls}" th:object="${url}">
+                        <tr th:each="check : ${checks}" th:object="${check}">
                             <th th:text="*{id}"></th>
-                            <td>
-                                <a th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
-                            </td>
-                            <td></td>
-                            <td></td>
-                        </tr>-->
+                            <td th:text="*{statusCode}"></td>
+                            <td th:text="*{title}"></td>
+                            <td th:text="*{h1}"></td>
+                            <td th:text="*{description}"></td>
+                             <td th:text="*{createdAtToFormat}"></td>
+                        </tr>
                     </tbody>
                 </table>
             </div>
