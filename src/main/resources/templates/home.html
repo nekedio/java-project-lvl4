@@ -13,9 +13,9 @@
     <section layout:fragment="content">
         <div class="p-5">
             <form action="/" method="POST" class="p-3 mb-2 border rounded bg-light">
-                <legend>Бесплатный СЕО анализ страницы вашего сайта </legend>
+                <legend>Бесплатный СЕО анализ вашего сайта</legend>
                 <div class="mb-3">
-                    <label for="exampleInputEmail1" class="form-label">Запустите проверку страницы! Как роботы видят вашу страницу?</label>
+                    <label for="exampleInputEmail1" class="form-label">Запустите проверку сайта! Как роботы видят ваш сайт?</label>
                     <input class="form-control" type="text" name="url" placeholder="https://www.example.com" th:classappend="${errors.url}? 'is-invalid'" th:value="*{url.getName()}">
                         <div layout:fragment="validation-errors" th:object="${errors.url}"></div>
                         <div id="emailHelp" class="form-text">Вставьте URL для запуска СЕО анализа.</div>
