@@ -11,16 +11,27 @@
     </div>
 
     <section layout:fragment="content">
+
         <div class="p-5">
+            <h1 style="color: rgb(98, 170, 187)">Анализатор сайтов</h1>
             <form action="/" method="POST" class="p-3 mb-2 border rounded bg-light">
-                <legend>Бесплатный СЕО анализ вашего сайта</legend>
+
+                <div style="display: flex; justify-content: start; align-items: center;">
+                    <div>
+                        <svg xmlns="http://www.w3.org/2000/svg" style="margin-right: 10px; color: rgb(98, 170, 187)" width="30" height="30" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                            <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"/></svg>
+                    </div>
+                    <div>
+                        <legend style="color: rgb(98, 170, 187)">Бесплатный СЕО анализ вашего сайта</legend>
+                    </div>
+                </div>
                 <div class="mb-3">
                     <label for="exampleInputEmail1" class="form-label">Запустите проверку сайта! Как роботы видят ваш сайт?</label>
                     <input class="form-control" type="text" name="url" placeholder="https://www.example.com" th:classappend="${errors.url}? 'is-invalid'" th:value="*{url.getName()}">
                         <div layout:fragment="validation-errors" th:object="${errors.url}"></div>
                         <div id="emailHelp" class="form-text">Вставьте URL для запуска СЕО анализа.</div>
                 </div>
-                <button type="submit" class="btn btn-primary">Отправить на проверку!</button>
+                <button type="submit" class="btn text-white" style="background-color: rgb(98, 170, 187)">Отправить на проверку!</button>
             </form>
         </div>
     </section>

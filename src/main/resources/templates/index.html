@@ -21,7 +21,7 @@
                     <tr th:each="url : ${urls}" th:object="${url}">
                         <th th:text="*{id}"></th>
                         <td>
-                            <a th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
+                            <a style="color: rgb(98, 170, 187)" th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
                         </td>
                         <td th:text="${checks.get(url.getId()) ? checks.get(url.getId()).getStatusCode() : ' - '}"></td>
                         <td th:text="${checks.get(url.getId()) ? checks.get(url.getId()).createdAtToFormat() : ' - '}"></td>
@@ -34,16 +34,16 @@
             <nav aria-label="Пример навигации по страницам">
                 <ul class="pagination justify-content-center">
                     <li th:if="${page > 1}" class="page-item">
-                        <a class="page-link"  th:href="@{/urls?page={page}(page=*{page - 1})}"  >Предыдущая</a>
+                        <a style="color: rgb(98, 170, 187)" class="page-link"  th:href="@{/urls?page={page}(page=*{page - 1})}"  >Предыдущая</a>
                     </li>
                     <li class="page-item">
-                        <u class="text-primary">
-                            <a class="page-link" th:href="@{/urls?page={page}(page=*{page})}" th:text="*{page}"></a>
+                        <u style="color: rgb(98, 170, 187)">
+                            <a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page})}" th:text="*{page}"></a>
                         </u>
                     </li>
-                    <li class="page-item"><a class="page-link" th:href="@{/urls?page={page}(page=*{page + 1})}" th:text="*{page + 1}"></a></li>
-                    <li class="page-item"><a class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}" th:text="*{page + 2}"></a></li>
-                    <li class="page-item"><a class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}">Следующая</a></li>
+                    <li class="page-item"><a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 1})}" th:text="*{page + 1}"></a></li>
+                    <li class="page-item"><a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}" th:text="*{page + 2}"></a></li>
+                    <li class="page-item"><a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}">Следующая</a></li>
                 </ul>
             </nav>
         </div>
