@@ -66,6 +66,7 @@ dependencies {
     testImplementation 'io.ebean:ebean-test:12.11.5'
 
     implementation 'com.konghq:unirest-java:3.13.6'
+    implementation 'org.jsoup:jsoup:1.15.2'
     //testImplementation 'org.junit.jupiter:junit-jupiter:5.8.2'
     //testImplementation 'org.assertj:assertj-core:3.22.0'
     //testCompileOnly 'junit:junit:4.13.2'

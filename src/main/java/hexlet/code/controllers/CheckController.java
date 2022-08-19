@@ -4,10 +4,9 @@ import hexlet.code.models.Url;
 import hexlet.code.models.UrlCheck;
 import hexlet.code.models.query.QUrl;
 import hexlet.code.models.query.QUrlCheck;
+import hexlet.code.services.CheckServices;
 import io.javalin.http.Handler;
 import java.util.List;
-import kong.unirest.HttpResponse;
-import kong.unirest.Unirest;
 
 public class CheckController {
 
@@ -43,17 +42,14 @@ public class CheckController {
             return;
         }
 
-        int status;
+        CheckServices checkServices = new CheckServices(url.getName());
 
-        try {
-            HttpResponse<String> response = Unirest.get(url.getName()).asString();
-            status = response.getStatus();
-        } catch (Exception e) {
-            status = 500;
-        }
+        int status = checkServices.checkStatusCode();
+        String title = checkServices.checkTitle();
+        String h1 = checkServices.checkH1();
+        String description = checkServices.checkDescription();
 
-        UrlCheck check = new UrlCheck(status, "title", "h1", "description", url);
-
+        UrlCheck check = new UrlCheck(status, title, h1, description, url);
         check.save();
 
         ctx.redirect("/urls/" + id);

@@ -23,8 +23,8 @@
                         <td>
                             <a th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
                         </td>
-                        <td></td>
-                        <td></td>
+                        <td th:text="${checks.get(url.getId()) ? checks.get(url.getId()).getStatusCode() : ' - '}"></td>
+                        <td th:text="${checks.get(url.getId()) ? checks.get(url.getId()).createdAtToFormat() : ' - '}"></td>
                     </tr>
                 </tbody>
             </table>

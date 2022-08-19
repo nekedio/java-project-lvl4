@@ -1,7 +1,9 @@
 package hexlet.code.controllers;
 
 import hexlet.code.models.Url;
+import hexlet.code.models.UrlCheck;
 import hexlet.code.models.query.QUrl;
+import hexlet.code.models.query.QUrlCheck;
 import hexlet.code.services.UrlService;
 import io.ebean.PagedList;
 import io.javalin.core.validation.JavalinValidation;
@@ -75,9 +77,14 @@ public final class UrlController {
 
         List<Url> urls = pagedUrls.getList();
 
+        Map<Long, UrlCheck> checks = new QUrlCheck()
+                .url.id.asMapKey()
+                .orderBy().createdAt.desc()
+                .findMap();
+
         ctx.attribute("urls", urls);
         ctx.attribute("page", page);
+        ctx.attribute("checks", checks);
         ctx.render("index.html");
     };
-
 }
