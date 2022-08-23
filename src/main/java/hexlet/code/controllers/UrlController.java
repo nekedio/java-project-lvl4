@@ -53,7 +53,7 @@ public final class UrlController {
         }
 
         url.save();
-        ctx.sessionAttribute("flashSuccess", "Пользователь успешно создан!");
+        ctx.sessionAttribute("flashSuccess", "URL успешно обавлен!");
         ctx.redirect("/urls");
         return;
     };
