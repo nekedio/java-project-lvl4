@@ -44,14 +44,27 @@ public class CheckController {
 
         CheckServices checkServices = new CheckServices(url.getName());
 
-        int status = checkServices.checkStatusCode();
-        String title = checkServices.checkTitle();
-        String h1 = checkServices.checkH1();
-        String description = checkServices.checkDescription();
+        int status;
+        String title;
+        String h1;
+        String description;
+
+        try {
+            status = checkServices.checkStatusCode();
+            title = checkServices.checkTitle();
+            h1 = checkServices.checkH1();
+            description = checkServices.checkDescription();
+        } catch (Exception e) {
+            ctx.sessionAttribute("flashError", e.getMessage());
+            ctx.redirect("/urls/" + id);
+            return;
+        }
 
         UrlCheck check = new UrlCheck(status, title, h1, description, url);
         check.save();
 
+        ctx.sessionAttribute("flashSuccess", "Сайт успешно прошел проверку!");
         ctx.redirect("/urls/" + id);
+        return;
     };
 }

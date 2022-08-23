@@ -58,9 +58,9 @@
                         <tr th:each="check : ${checks}" th:object="${check}">
                             <th th:text="*{id}"></th>
                             <td th:text="*{statusCode}"></td>
-                            <td th:text="*{title}"></td>
-                            <td th:text="*{h1}"></td>
-                            <td th:text="*{description}"></td>
+                            <td th:text="*{(title != '') ? title : '-'}"></td>
+                            <td th:text="*{(h1 != '') ? h1 : '-'}"></td>
+                            <td th:text="*{(description != '') ? description : '-'}"></td>
                              <td th:text="*{createdAtToFormat}"></td>
                         </tr>
                     </tbody>

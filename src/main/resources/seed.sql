@@ -7,7 +7,7 @@ VALUES
   ('https://github.com/', '2020-12-12'),
   ('https://about.gitlab.com/', '2020-12-12'),
   ('https://docs.oracle.com', '2020-12-12'),
-  ('https://www.google.com', '2020-12-12');
+  ('http://localhost:2000', '2020-12-12');
 
 
 INSERT INTO url_check
