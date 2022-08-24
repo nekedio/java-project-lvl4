@@ -56,7 +56,7 @@ class App {
 
     private static void addRoutes(Javalin app) {
         app.get("/", HomeController.welcome);
-        app.post("/", UrlController.createUrl);
+        app.post("/urls", UrlController.createUrl);
         app.get("/urls", UrlController.list);
         app.get("/urls/{id}", CheckController.show);
         app.post("/urls/{id}/checks", CheckController.createCheck);

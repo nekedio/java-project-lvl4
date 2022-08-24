@@ -59,8 +59,8 @@ public final class AppTest {
 
     @Test
     public void testShowPage() {
-        String urlName = "https://www.test.ru";
-        HttpResponse<String> response = Unirest.post(baseUrl)
+        String urlName = "https://www.test-show-page.ru";
+        HttpResponse<String> response = Unirest.post(baseUrl + "/urls")
                 .field("url", urlName)
                 .asEmpty();
 
@@ -80,7 +80,7 @@ public final class AppTest {
     public void testAddingValidUrl() {
         String urlName = "https://www.test-adding-valid-url.ru";
 
-        HttpResponse<String> response = Unirest.post(baseUrl)
+        HttpResponse<String> response = Unirest.post(baseUrl + "/urls")
                 .field("url", urlName)
                 .asEmpty();
         assertThat(response.getStatus()).isEqualTo(302);
@@ -102,12 +102,12 @@ public final class AppTest {
 
         int beforCountUrl = new QUrl().findList().size();
 
-        HttpResponse<String> response = Unirest.post(baseUrl)
+        HttpResponse<String> response = Unirest.post(baseUrl + "/urls")
                 .field("url", invalidUrl)
                 .asEmpty();
         assertThat(response.getStatus()).isEqualTo(422);
 
-        HttpResponse<String> response1 = Unirest.post(baseUrl)
+        HttpResponse<String> response1 = Unirest.post(baseUrl + "/urls")
                 .field("url", invalidUrl1)
                 .asEmpty();
         assertThat(response1.getStatus()).isEqualTo(422);
@@ -132,7 +132,7 @@ public final class AppTest {
 
         String mockUrl = server.url("/").toString();
 
-        HttpResponse<String> response = Unirest.post(baseUrl)
+        HttpResponse<String> response = Unirest.post(baseUrl + "/urls")
                 .field("url", mockUrl)
                 .asEmpty();
 
