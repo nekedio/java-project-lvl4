@@ -1,30 +1,27 @@
 package hexlet.code;
 
 import hexlet.code.models.Url;
+import hexlet.code.models.UrlCheck;
 import hexlet.code.models.query.QUrl;
-import io.ebean.DB;
-import io.ebean.Transaction;
 import io.javalin.Javalin;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
 import java.util.List;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
+import okhttp3.mockwebserver.MockResponse;
+import okhttp3.mockwebserver.MockWebServer;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterAll;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public final class AppTest {
 
-    @Test
-    public void testTest() {
-        assertThat("test").isEqualTo("test");
-    }
-
     private static Javalin app;
     private static String baseUrl;
-    private static Transaction transaction;
+    private static UrlCheck check;
 
     @BeforeAll
     public static void beforeAll() {
@@ -39,23 +36,12 @@ public final class AppTest {
         app.stop();
     }
 
-    @BeforeEach
-    void beforeEach() {
-        transaction = DB.beginTransaction();
-    }
-
-    @AfterEach
-    void afterEach() {
-        transaction.rollback();
-    }
-
     @Test
     public void testHomePage() {
         HttpResponse<String> response = Unirest.get(baseUrl).asString();
         assertThat(response.getStatus()).isEqualTo(200);
         assertThat(response.getBody()).contains(List.of(
                 "Анализатор страниц",
-                "Бесплатный СЕО анализ страницы вашего сайта",
                 "Отправить на проверку!"
         ));
     }
@@ -72,12 +58,15 @@ public final class AppTest {
     }
 
     @Test
-    public void testCheckPage() {
+    public void testShowPage() {
         String urlName = "https://www.test.ru";
         HttpResponse<String> response = Unirest.post(baseUrl)
                 .field("url", urlName)
                 .asEmpty();
-        HttpResponse<String> responseUrl = Unirest.get(baseUrl + "/urls/1").asString();
+
+        Url url = new QUrl().name.equalTo(urlName).findOne();
+
+        HttpResponse<String> responseUrl = Unirest.get(baseUrl + "/urls/" + url.getId()).asString();
 
         assertThat(responseUrl.getStatus()).isEqualTo(200);
 
@@ -89,7 +78,7 @@ public final class AppTest {
 
     @Test
     public void testAddingValidUrl() {
-        String urlName = "https://www.test.ru";
+        String urlName = "https://www.test-adding-valid-url.ru";
 
         HttpResponse<String> response = Unirest.post(baseUrl)
                 .field("url", urlName)
@@ -111,6 +100,8 @@ public final class AppTest {
         String invalidUrl = "test.ru";
         String invalidUrl1 = "";
 
+        int beforCountUrl = new QUrl().findList().size();
+
         HttpResponse<String> response = Unirest.post(baseUrl)
                 .field("url", invalidUrl)
                 .asEmpty();
@@ -121,7 +112,47 @@ public final class AppTest {
                 .asEmpty();
         assertThat(response1.getStatus()).isEqualTo(422);
 
-        List<Url> urls = new QUrl().findList();
-        assertThat(0).isEqualTo(urls.size());
+        int afterCountUrls = new QUrl().findList().size();
+        assertThat(beforCountUrl).isEqualTo(afterCountUrls);
     }
+
+    @Test
+    public void testCheck() throws IOException {
+
+        String mockHtml = Files.readString(Path.of("src/test/resources/mock-site.html"));
+
+        MockWebServer server = new MockWebServer();
+
+        server.enqueue(new MockResponse().setBody(mockHtml));
+        server.enqueue(new MockResponse().setBody(mockHtml));
+        server.enqueue(new MockResponse().setBody(mockHtml));
+        server.enqueue(new MockResponse().setBody(mockHtml));
+
+        server.start();
+
+        String mockUrl = server.url("/").toString();
+
+        HttpResponse<String> response = Unirest.post(baseUrl)
+                .field("url", mockUrl)
+                .asEmpty();
+
+        Url url = new QUrl().name.equalTo(mockUrl.substring(0, mockUrl.length() - 1))
+                .findOne();
+
+        HttpResponse<String> responseCheck = Unirest.post(baseUrl + "/urls/" + url.getId() + "/checks")
+                .asEmpty();
+
+        HttpResponse<String> responseShow = Unirest.get(baseUrl + "/urls/" + url.getId()).asString();
+
+        server.shutdown();
+
+        assertThat(200).isEqualTo(responseShow.getStatus());
+
+        assertThat(responseShow.getBody()).contains(List.of(
+                "test_title",
+                "test_h1",
+                "test_description"
+        ));
+    }
+
 }
