@@ -7,6 +7,8 @@ import hexlet.code.models.query.QUrlCheck;
 import hexlet.code.services.CheckServices;
 import io.javalin.http.Handler;
 import java.util.List;
+import kong.unirest.HttpResponse;
+import kong.unirest.Unirest;
 
 public class CheckController {
 
@@ -42,18 +44,17 @@ public class CheckController {
             return;
         }
 
-        CheckServices checkServices = new CheckServices(url.getName());
-
         int status;
         String title;
         String h1;
         String description;
 
         try {
-            status = checkServices.checkStatusCode();
-            title = checkServices.checkTitle();
-            h1 = checkServices.checkH1();
-            description = checkServices.checkDescription();
+            HttpResponse<String> response = Unirest.get(url.getName()).asString();
+            status = CheckServices.checkStatusCode(response);
+            title = CheckServices.checkTitle(response);
+            h1 = CheckServices.checkH1(response);
+            description = CheckServices.checkDescription(response);
         } catch (Exception e) {
             ctx.sessionAttribute("flashError", e.getMessage());
             ctx.redirect("/urls/" + id);
