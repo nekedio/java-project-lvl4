@@ -124,9 +124,6 @@ public final class AppTest {
         MockWebServer server = new MockWebServer();
 
         server.enqueue(new MockResponse().setBody(mockHtml));
-        server.enqueue(new MockResponse().setBody(mockHtml));
-        server.enqueue(new MockResponse().setBody(mockHtml));
-        server.enqueue(new MockResponse().setBody(mockHtml));
 
         server.start();
 
