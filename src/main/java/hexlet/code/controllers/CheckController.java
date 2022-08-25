@@ -41,6 +41,7 @@ public class CheckController {
         if (url == null) {
             ctx.status(404);
             ctx.render("404.html");
+
             return;
         }
 
