@@ -13,8 +13,8 @@
                     <tr>
                         <th scope="col">ID</th>
                         <th scope="col">Имя</th>
-                        <th scope="col">Последняя проверка</th>
                         <th scope="col">Код ответа</th>
+                        <th scope="col">Последняя проверка</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -24,7 +24,7 @@
                             <a style="color: rgb(98, 170, 187)" th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
                         </td>
                         <td th:text="${checks.get(url.getId()) ? checks.get(url.getId()).getStatusCode() : ' - '}"></td>
-                        <td th:text="${checks.get(url.getId()) ? checks.get(url.getId()).createdAtToFormat() : ' - '}"></td>
+                        <td th:text="${checks.get(url.getId()) ? #dates.format(checks.get(url.getId()).getCreatedAt(), 'dd-MM-yyyy HH:mm') : ' - '}"></td>
                     </tr>
                 </tbody>
             </table>
