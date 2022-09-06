@@ -6,6 +6,7 @@ import hexlet.code.models.query.QUrl;
 import hexlet.code.models.query.QUrlCheck;
 import hexlet.code.services.CheckServices;
 import io.javalin.http.Handler;
+import io.javalin.http.NotFoundResponse;
 import java.util.List;
 import kong.unirest.HttpResponse;
 import kong.unirest.Unirest;
@@ -18,9 +19,7 @@ public class CheckController {
         Url url = new QUrl().id.eq(id).findOne();
 
         if (url == null) {
-            ctx.status(404);
-            ctx.render("404.html");
-            return;
+            throw new NotFoundResponse();
         }
 
         List<UrlCheck> checks = new QUrlCheck().url.equalTo(url)
@@ -39,10 +38,7 @@ public class CheckController {
         Url url = new QUrl().id.eq(id).findOne();
 
         if (url == null) {
-            ctx.status(404);
-            ctx.render("404.html");
-
-            return;
+            throw new NotFoundResponse();
         }
 
         int status;
