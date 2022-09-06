@@ -61,7 +61,7 @@ public class CheckController {
         UrlCheck check = new UrlCheck(status, title, h1, description, url);
         check.save();
 
-        ctx.sessionAttribute("flashSuccess", "Сайт успешно прошел проверку!");
+        ctx.sessionAttribute("flashSuccess", "Страница успешно проверена!");
         ctx.redirect("/urls/" + id);
         return;
     };
