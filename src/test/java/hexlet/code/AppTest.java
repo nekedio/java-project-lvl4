@@ -3,6 +3,8 @@ package hexlet.code;
 import hexlet.code.models.Url;
 import hexlet.code.models.UrlCheck;
 import hexlet.code.models.query.QUrl;
+import io.ebean.DB;
+import io.ebean.SqlRow;
 import io.javalin.Javalin;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -152,4 +154,30 @@ public final class AppTest {
         ));
     }
 
+    @Test
+    void testStore() {
+        String inputUrl = "https://ru.hexlet.io";
+        HttpResponse<String> responsePost = Unirest
+                .post(baseUrl + "/urls")
+                .field("url", inputUrl)
+                .asEmpty();
+
+        assertThat(responsePost.getStatus()).isEqualTo(302);
+        assertThat(responsePost.getHeaders().getFirst("Location")).isEqualTo("/urls");
+
+        HttpResponse<String> response = Unirest
+                .get(baseUrl + "/urls")
+                .asString();
+        String body = response.getBody();
+
+        assertThat(response.getStatus()).isEqualTo(200);
+        assertThat(body).contains(inputUrl);
+        assertThat(body).contains("Страница успешно добавлена");
+
+        String selectUrl = String.format("SELECT * FROM url WHERE name = '%s';", inputUrl);
+        SqlRow actualUrl = DB.sqlQuery(selectUrl).findOne();
+
+        assertThat(actualUrl).isNotNull();
+        assertThat(actualUrl.getString("name")).isEqualTo(inputUrl);
+    }
 }

@@ -66,7 +66,7 @@ public final class UrlController {
         Url newUrl = new Url(normalizedUrl);
 
         newUrl.save();
-        ctx.sessionAttribute("flashSuccess", "URL успешно обавлен!");
+        ctx.sessionAttribute("flashSuccess", "Страница успешно добавлена!");
         ctx.redirect("/urls");
         return;
     };
