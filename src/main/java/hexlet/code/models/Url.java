@@ -22,10 +22,6 @@ public class Url extends Model {
     @OneToMany
     private List<UrlCheck> urlChecks;
 
-    public Url() {
-
-    }
-
     public Url(String name) {
         this.name = name;
     }
