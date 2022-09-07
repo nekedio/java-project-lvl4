@@ -3,7 +3,6 @@ package hexlet.code.models;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import java.time.Instant;
-import java.util.Date;
 import java.util.List;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -39,8 +38,7 @@ public class Url extends Model {
         return name;
     }
 
-    public final Date getCreatedAt() {
-        Date date = Date.from(createdAt);
-        return date;
+    public final Instant getCreatedAt() {
+        return createdAt;
     }
 }

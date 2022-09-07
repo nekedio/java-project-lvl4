@@ -3,7 +3,6 @@ package hexlet.code.models;
 import io.ebean.Model;
 import io.ebean.annotation.WhenCreated;
 import java.time.Instant;
-import java.util.Date;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
@@ -56,9 +55,8 @@ public class UrlCheck extends Model {
         return url;
     }
 
-    public final Date getCreatedAt() {
-        Date date = Date.from(createdAt);
-        return date;
+    public final Instant getCreatedAt() {
+        return createdAt;
     }
 
     public UrlCheck(int statusCode, String title, String h1, String description, Url url) {

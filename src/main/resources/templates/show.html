@@ -24,7 +24,7 @@
                         </tr>
                         <tr>
                             <th scope="col">Дата создания</th>
-                            <td th:text="${#dates.format(url.getCreatedAt, 'dd-MM-yyyy HH:mm')}"></td>
+                            <td th:text="${#temporals.format(url.getCreatedAt, 'dd-MM-yyyy HH:mm')}"></td>
                         </tr>
                     </tbody>
                 </table>
@@ -61,7 +61,7 @@
                             <td th:text="*{(title != '') ? title : '-'}"></td>
                             <td th:text="*{(h1 != '') ? h1 : '-'}"></td>
                             <td th:text="*{(description != '') ? description : '-'}"></td>
-                            <td th:text="${#dates.format(check.getCreatedAt, 'dd-MM-yyyy HH:mm')}"></td>
+                            <td th:text="${#temporals.format(check.getCreatedAt, 'dd-MM-yyyy HH:mm')}"></td>
                         </tr>
                     </tbody>
                 </table>

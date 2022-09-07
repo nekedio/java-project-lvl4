@@ -24,7 +24,7 @@
                             <a style="color: rgb(98, 170, 187)" th:text="*{name}" th:href="@{/urls/{id}(id=*{id})}"></a>
                         </td>
                         <td th:text="${checks.get(url.getId()) ? checks.get(url.getId()).getStatusCode() : ' - '}"></td>
-                        <td th:text="${checks.get(url.getId()) ? #dates.format(checks.get(url.getId()).getCreatedAt(), 'dd-MM-yyyy HH:mm') : ' - '}"></td>
+                        <td th:text="${checks.get(url.getId()) ? #temporals.format(checks.get(url.getId()).getCreatedAt(), 'dd-MM-yyyy HH:mm') : ' - '}"></td>
                     </tr>
                 </tbody>
             </table>
