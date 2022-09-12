@@ -88,12 +88,15 @@ public final class UrlController {
 
         List<Url> urls = pagedUrls.getList();
 
+        int pagesCount = pagedUrls.getTotalPageCount();
+
         Map<Long, UrlCheck> checks = new QUrlCheck().url.id.asMapKey()
                 .orderBy().createdAt.desc()
                 .findMap();
 
         ctx.attribute("urls", urls);
         ctx.attribute("page", page);
+        ctx.attribute("pagesCount", pagesCount);
         ctx.attribute("checks", checks);
         ctx.render("index.html");
     };

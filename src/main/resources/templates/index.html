@@ -36,14 +36,26 @@
                     <li th:if="${page > 1}" class="page-item">
                         <a style="color: rgb(98, 170, 187)" class="page-link"  th:href="@{/urls?page={page}(page=*{page - 1})}"  >Предыдущая</a>
                     </li>
+                    <li th:if="${page - 2 > 0}" class="page-item">
+                        <a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page - 2})}" th:text="*{page - 2}"></a>
+                    </li>
+                    <li th:if="${page - 1 > 0}" class="page-item">
+                        <a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page - 1})}" th:text="*{page - 1}"></a>
+                    </li> 
                     <li class="page-item">
                         <u style="color: rgb(98, 170, 187)">
                             <a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page})}" th:text="*{page}"></a>
                         </u>
                     </li>
-                    <li class="page-item"><a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 1})}" th:text="*{page + 1}"></a></li>
-                    <li class="page-item"><a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}" th:text="*{page + 2}"></a></li>
-                    <li class="page-item"><a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}">Следующая</a></li>
+                    <li th:if="${page + 1 <= pagesCount}" class="page-item">
+                        <a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 1})}" th:text="*{page + 1}"></a>
+                    </li>
+                    <li th:if="${page + 2 <= pagesCount}" class="page-item">
+                        <a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 2})}" th:text="*{page + 2}"></a>
+                    </li>
+                    <li th:if="${page < pagesCount}" class="page-item">
+                        <a style="color: rgb(98, 170, 187)" class="page-link" th:href="@{/urls?page={page}(page=*{page + 1})}">Следующая</a>
+                    </li>
                 </ul>
             </nav>
         </div>
