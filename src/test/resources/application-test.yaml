@@ -10,3 +10,5 @@ ebean:
     run: true
     generate: true
     seedSql: seed-test.sql
+    
+    

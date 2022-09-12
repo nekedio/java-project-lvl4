@@ -4,6 +4,7 @@ import hexlet.code.models.Url;
 import hexlet.code.models.UrlCheck;
 import hexlet.code.models.query.QUrl;
 import io.ebean.DB;
+import io.ebean.Database;
 import io.ebean.SqlRow;
 import io.javalin.Javalin;
 import java.io.IOException;
@@ -17,6 +18,7 @@ import okhttp3.mockwebserver.MockWebServer;
 import static org.assertj.core.api.Assertions.assertThat;
 import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 public final class AppTest {
@@ -24,6 +26,13 @@ public final class AppTest {
     private static Javalin app;
     private static String baseUrl;
     private static UrlCheck check;
+    private static Database database;
+
+    @BeforeEach
+    public void afterEach() {
+        database.script().run("/truncate.sql");
+        database.script().run("/seed-test.sql");
+    }
 
     @BeforeAll
     public static void beforeAll() {
@@ -31,6 +40,7 @@ public final class AppTest {
         app.start(0);
         int port = app.port();
         baseUrl = "http://localhost:" + port;
+        database = DB.getDefault();
     }
 
     @AfterAll
@@ -104,6 +114,8 @@ public final class AppTest {
 
         int beforCountUrl = new QUrl().findList().size();
 
+        List<Url> urlss = new QUrl().findList();
+
         HttpResponse<String> response = Unirest.post(baseUrl + "/urls")
                 .field("url", invalidUrl)
                 .asEmpty();
@@ -121,7 +133,9 @@ public final class AppTest {
     @Test
     public void testCheck() throws IOException {
 
-        String mockHtml = Files.readString(Path.of("src/test/resources/mock-site.html"));
+//        String mockHtml = Files.readString(Path.of("src/test/resources/mock-site.html"));
+
+        String mockHtml = readFixture("mock-site.html");
 
         MockWebServer server = new MockWebServer();
 
@@ -179,5 +193,15 @@ public final class AppTest {
 
         assertThat(actualUrl).isNotNull();
         assertThat(actualUrl.getString("name")).isEqualTo(inputUrl);
+    }
+
+    private static String readFixture(String fileName) throws IOException {
+        Path filePath = getFixturePath(fileName);
+        return Files.readString(filePath).trim();
+    }
+
+    private static Path getFixturePath(String fileName) {
+        return Path.of("src", "test", "resources", "fixtures", fileName)
+                .toAbsolutePath().normalize();
     }
 }
